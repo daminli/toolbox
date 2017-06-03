@@ -1,0 +1,12 @@
+{
+    "type": "Ext.container.Viewport",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "designer|userClassName": "UserGroup"
+    },
+    "designerId": "51ef6af2-cae4-4ce0-af46-cde4ac513610"
+}

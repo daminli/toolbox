@@ -1,0 +1,63 @@
+*{padding: 0;margin: 0;}
+
+/*  */
+.clearfix:after {content: "";display: table;clear: both;}
+html, body { height: 100%; }
+body {    
+font-family:"Times New Roman"; background:#EBEBEB;    
+font-weight: 300;  font-size: 15px;  color: #333;overflow: hidden;}
+a {text-decoration: none; color:#000;}
+a:hover{color:#F87982;}
+
+/*home*/
+#home{padding-top:100px;}
+
+/*login*/
+#login{ 
+padding:20px 30px 30px; width:300px; background:#FFF; margin:auto;
+border-radius: 3px;
+box-shadow: 0 3px 3px rgba(0, 0, 0, 0.3);
+}
+
+.current1{
+-moz-transform: scale(0);     /* for Firefox */  
+-webkit-transform: scale(0);  /* for Chrome || Safari */
+-o-transform: scale(0);       /* for Opera  */
+-ms-transform: scale(0);      /* for IE */
+transform: scale(0); 
+-moz-transition: all 0.4s ease-in-out;  
+-webkit-transition: all 0.4s ease-in-out;
+-o-transition: all 0.4s ease-in-out;
+transition: all 0.4s ease-in-out; 
+}
+
+.current{
+-moz-transform: scale(1);
+-webkit-transform: scale(1);
+-o-transform: scale(1);
+-ms-transform: scale(1);
+transform: scale(1);
+}
+
+#login label{ color:#C8C8C8; width:280px; display:block; height:35px; padding:0 10px; font-size:12px; line-height:35px;  background:#EBEBEB; margin-bottom:10px;position:relative;}
+#login label input{  float:right;font:13px/20px "Microsoft YaHei"; background:none;  height:20px; border:none; margin:7px 0 0 10px;width:245px;outline:none ; letter-spacing:normal;  z-index:1; position:relative;  }
+#login label span{ color:#F30;text-align:right; display:block;  height:35px; width:100px; position:absolute; top:0; left:190px; padding:0 10px 0 0; z-index:0; display:none; }
+.error_message {color:#F30;text-align:center;}
+#login button{ 
+font-family:"Times New Roman";
+cursor:pointer;
+width:300px;  
+height:35px; 
+background:#FE4E5B; border:none; font-size:16px; line-height:30px;  letter-spacing:3px; color:#FFF; 
+position:relative; margin-top:10px;
+-moz-transition: all 0.2s ease-in;
+-webkit-transition: all 0.2s ease-in;
+-o-transition: all 0.2s ease-in;
+transition: all 0.2s ease-in;}
+#login button:hover{ background:#F87982; color:#000;}
+
+.avator{
+    display:block;
+    margin:0 auto 20px;
+    border-radius:50%;
+}

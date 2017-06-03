@@ -1,0 +1,47 @@
+{
+    "name": "Dagou",
+    "settings": {},
+    "xdsVersion": "2.2.2",
+    "xdsBuild": 971,
+    "schemaVersion": 1,
+    "upgradeVersion": 210000000501,
+    "framework": "ext42",
+    "topInstanceFileMap": {
+        "8340f0b0-0d3e-439a-9a35-3bb271412980": {
+            "paths": [
+                "metadata/resource/Library"
+            ],
+            "className": "Library"
+        },
+        "7bc0836b-9b94-4aa3-bf20-2c904586fa24": {
+            "paths": [
+                "metadata/resource/js"
+            ],
+            "className": "js"
+        },
+        "4a5dcf33-c8e7-4d31-80e2-0132fdf3c7ef": {
+            "paths": [
+                "metadata/view/MyPanel",
+                "app/view/override/MyPanel.js",
+                "app/view/MyPanel.js",
+                "app/view/Viewport.js"
+            ],
+            "className": "MyPanel"
+        }
+    },
+    "viewOrderMap": {
+        "view": [
+            "4a5dcf33-c8e7-4d31-80e2-0132fdf3c7ef"
+        ],
+        "store": [],
+        "controller": [],
+        "model": [],
+        "resource": [
+            "8340f0b0-0d3e-439a-9a35-3bb271412980",
+            "7bc0836b-9b94-4aa3-bf20-2c904586fa24"
+        ],
+        "app": [
+            "application"
+        ]
+    }
+}

@@ -1,0 +1,45 @@
+{
+    "type": "Ext.panel.Panel",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "height": 250,
+        "width": 400,
+        "designer|userClassName": "MyPanel",
+        "designer|initialView": true,
+        "title": "My Panel"
+    },
+    "designerId": "010ec95b-647f-42f4-b6ee-ae68a7b7fbd3",
+    "cn": [
+        {
+            "type": "Ext.button.Button",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "margin": "5px",
+                "padding": null,
+                "text": "MyButton"
+            },
+            "designerId": "9a95527f-3ffa-4514-b38e-4473f848a8f5"
+        },
+        {
+            "type": "Ext.button.Button",
+            "reference": {
+                "name": "items",
+                "type": "array"
+            },
+            "codeClass": null,
+            "userConfig": {
+                "padding": null,
+                "text": "MyButton"
+            },
+            "designerId": "7271e183-182f-431e-b302-9e2494ffacc3"
+        }
+    ]
+}

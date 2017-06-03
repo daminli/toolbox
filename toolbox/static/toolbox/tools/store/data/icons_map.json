@@ -1,0 +1,1209 @@
+[
+	{
+		"icon_class": "icon-glass",
+		"font_code": "f000"
+	}, {
+		"icon_class": "icon-music",
+		"font_code": "f001"
+	}
+	, {
+		"icon_class": "icon-search",
+		"font_code": "f002"
+	}
+	, {
+		"icon_class": "icon-envelope",
+		"font_code": "f003"
+	}
+	, {
+		"icon_class": "icon-heart",
+		"font_code": "f004"
+	}
+	, {
+		"icon_class": "icon-star",
+		"font_code": "f005"
+	}
+	, {
+		"icon_class": "icon-star-empty",
+		"font_code": "f006"
+	}
+	, {
+		"icon_class": "icon-user",
+		"font_code": "f007"
+	}
+	, {
+		"icon_class": "icon-film",
+		"font_code": "f008"
+	}
+	, {
+		"icon_class": "icon-th-large",
+		"font_code": "f009"
+	}
+	, {
+		"icon_class": "icon-th",
+		"font_code": "f00a"
+	}
+	, {
+		"icon_class": "icon-th-list",
+		"font_code": "f00b"
+	}
+	, {
+		"icon_class": "icon-ok",
+		"font_code": "f00c"
+	}
+	, {
+		"icon_class": "icon-remove",
+		"font_code": "f00d"
+	}
+	, {
+		"icon_class": "icon-zoom-in",
+		"font_code": "f00e"
+	}
+	, {
+		"icon_class": "icon-zoom-out",
+		"font_code": "f010"
+	}
+	, {
+		"icon_class": "icon-off",
+		"font_code": "f011"
+	}
+	, {
+		"icon_class": "icon-signal",
+		"font_code": "f012"
+	}
+	, {
+		"icon_class": "icon-cog",
+		"font_code": "f013"
+	}
+	, {
+		"icon_class": "icon-trash",
+		"font_code": "f014"
+	}
+	, {
+		"icon_class": "icon-home",
+		"font_code": "f015"
+	}
+	, {
+		"icon_class": "icon-file",
+		"font_code": "f016"
+	}
+	, {
+		"icon_class": "icon-time",
+		"font_code": "f017"
+	}
+	, {
+		"icon_class": "icon-road",
+		"font_code": "f018"
+	}
+	, {
+		"icon_class": "icon-download-alt",
+		"font_code": "f019"
+	}
+	, {
+		"icon_class": "icon-download",
+		"font_code": "f01a"
+	}
+	, {
+		"icon_class": "icon-upload",
+		"font_code": "f01b"
+	}
+	, {
+		"icon_class": "icon-inbox",
+		"font_code": "f01c"
+	}
+	, {
+		"icon_class": "icon-play-circle",
+		"font_code": "f01d"
+	}
+	, {
+		"icon_class": "icon-repeat;icon-rotate-right",
+		"font_code": "f01e"
+	}
+	, {
+		"icon_class": "icon-refresh",
+		"font_code": "f021"
+	}
+	, {
+		"icon_class": "icon-list-alt",
+		"font_code": "f022"
+	}
+	, {
+		"icon_class": "icon-lock",
+		"font_code": "f023"
+	}
+	, {
+		"icon_class": "icon-flag",
+		"font_code": "f024"
+	}
+	, {
+		"icon_class": "icon-headphones",
+		"font_code": "f025"
+	}
+	, {
+		"icon_class": "icon-volume-off",
+		"font_code": "f026"
+	}
+	, {
+		"icon_class": "icon-volume-down",
+		"font_code": "f027"
+	}
+	, {
+		"icon_class": "icon-volume-up",
+		"font_code": "f028"
+	}
+	, {
+		"icon_class": "icon-qrcode",
+		"font_code": "f029"
+	}
+	, {
+		"icon_class": "icon-barcode",
+		"font_code": "f02a"
+	}
+	, {
+		"icon_class": "icon-tag",
+		"font_code": "f02b"
+	}
+	, {
+		"icon_class": "icon-tags",
+		"font_code": "f02c"
+	}
+	, {
+		"icon_class": "icon-book",
+		"font_code": "f02d"
+	}
+	, {
+		"icon_class": "icon-bookmark",
+		"font_code": "f02e"
+	}
+	, {
+		"icon_class": "icon-print",
+		"font_code": "f02f"
+	}
+	, {
+		"icon_class": "icon-camera",
+		"font_code": "f030"
+	}
+	, {
+		"icon_class": "icon-font",
+		"font_code": "f031"
+	}
+	, {
+		"icon_class": "icon-bold",
+		"font_code": "f032"
+	}
+	, {
+		"icon_class": "icon-italic",
+		"font_code": "f033"
+	}
+	, {
+		"icon_class": "icon-text-height",
+		"font_code": "f034"
+	}
+	, {
+		"icon_class": "icon-text-width",
+		"font_code": "f035"
+	}
+	, {
+		"icon_class": "icon-align-left",
+		"font_code": "f036"
+	}
+	, {
+		"icon_class": "icon-align-center",
+		"font_code": "f037"
+	}
+	, {
+		"icon_class": "icon-align-right",
+		"font_code": "f038"
+	}
+	, {
+		"icon_class": "icon-align-justify",
+		"font_code": "f039"
+	}
+	, {
+		"icon_class": "icon-list",
+		"font_code": "f03a"
+	}
+	, {
+		"icon_class": "icon-indent-left",
+		"font_code": "f03b"
+	}
+	, {
+		"icon_class": "icon-indent-right",
+		"font_code": "f03c"
+	}
+	, {
+		"icon_class": "icon-facetime-video",
+		"font_code": "f03d"
+	}
+	, {
+		"icon_class": "icon-picture",
+		"font_code": "f03e"
+	}
+	, {
+		"icon_class": "icon-pencil",
+		"font_code": "f040"
+	}
+	, {
+		"icon_class": "icon-map-marker",
+		"font_code": "f041"
+	}
+	, {
+		"icon_class": "icon-adjust",
+		"font_code": "f042"
+	}
+	, {
+		"icon_class": "icon-tint",
+		"font_code": "f043"
+	}
+	, {
+		"icon_class": "icon-edit",
+		"font_code": "f044"
+	}
+	, {
+		"icon_class": "icon-share",
+		"font_code": "f045"
+	}
+	, {
+		"icon_class": "icon-check",
+		"font_code": "f046"
+	}
+	, {
+		"icon_class": "icon-move",
+		"font_code": "f047"
+	}
+	, {
+		"icon_class": "icon-step-backward",
+		"font_code": "f048"
+	}
+	, {
+		"icon_class": "icon-fast-backward",
+		"font_code": "f049"
+	}
+	, {
+		"icon_class": "icon-backward",
+		"font_code": "f04a"
+	}
+	, {
+		"icon_class": "icon-play",
+		"font_code": "f04b"
+	}
+	, {
+		"icon_class": "icon-pause",
+		"font_code": "f04c"
+	}
+	, {
+		"icon_class": "icon-stop",
+		"font_code": "f04d"
+	}
+	, {
+		"icon_class": "icon-forward",
+		"font_code": "f04e"
+	}
+	, {
+		"icon_class": "icon-fast-forward",
+		"font_code": "f050"
+	}
+	, {
+		"icon_class": "icon-step-forward",
+		"font_code": "f051"
+	}
+	, {
+		"icon_class": "icon-eject",
+		"font_code": "f052"
+	}
+	, {
+		"icon_class": "icon-chevron-left",
+		"font_code": "f053"
+	}
+	, {
+		"icon_class": "icon-chevron-right",
+		"font_code": "f054"
+	}
+	, {
+		"icon_class": "icon-plus-sign",
+		"font_code": "f055"
+	}
+	, {
+		"icon_class": "icon-minus-sign",
+		"font_code": "f056"
+	}
+	, {
+		"icon_class": "icon-remove-sign",
+		"font_code": "f057"
+	}
+	, {
+		"icon_class": "icon-ok-sign",
+		"font_code": "f058"
+	}
+	, {
+		"icon_class": "icon-question-sign",
+		"font_code": "f059"
+	}
+	, {
+		"icon_class": "icon-info-sign",
+		"font_code": "f05a"
+	}
+	, {
+		"icon_class": "icon-screenshot",
+		"font_code": "f05b"
+	}
+	, {
+		"icon_class": "icon-remove-circle",
+		"font_code": "f05c"
+	}
+	, {
+		"icon_class": "icon-ok-circle",
+		"font_code": "f05d"
+	}
+	, {
+		"icon_class": "icon-ban-circle",
+		"font_code": "f05e"
+	}
+	, {
+		"icon_class": "icon-arrow-left",
+		"font_code": "f060"
+	}
+	, {
+		"icon_class": "icon-arrow-right",
+		"font_code": "f061"
+	}
+	, {
+		"icon_class": "icon-arrow-up",
+		"font_code": "f062"
+	}
+	, {
+		"icon_class": "icon-arrow-down",
+		"font_code": "f063"
+	}
+	, {
+		"icon_class": "icon-share-alt;icon-mail-forward",
+		"font_code": "f064"
+	}
+	, {
+		"icon_class": "icon-resize-full",
+		"font_code": "f065"
+	}
+	, {
+		"icon_class": "icon-resize-small",
+		"font_code": "f066"
+	}
+	, {
+		"icon_class": "icon-plus",
+		"font_code": "f067"
+	}
+	, {
+		"icon_class": "icon-minus",
+		"font_code": "f068"
+	}
+	, {
+		"icon_class": "icon-asterisk",
+		"font_code": "f069"
+	}
+	, {
+		"icon_class": "icon-exclamation-sign",
+		"font_code": "f06a"
+	}
+	, {
+		"icon_class": "icon-gift",
+		"font_code": "f06b"
+	}
+	, {
+		"icon_class": "icon-leaf",
+		"font_code": "f06c"
+	}
+	, {
+		"icon_class": "icon-fire",
+		"font_code": "f06d"
+	}
+	, {
+		"icon_class": "icon-eye-open",
+		"font_code": "f06e"
+	}
+	, {
+		"icon_class": "icon-eye-close",
+		"font_code": "f070"
+	}
+	, {
+		"icon_class": "icon-warning-sign",
+		"font_code": "f071"
+	}
+	, {
+		"icon_class": "icon-plane",
+		"font_code": "f072"
+	}
+	, {
+		"icon_class": "icon-calendar",
+		"font_code": "f073"
+	}
+	, {
+		"icon_class": "icon-random",
+		"font_code": "f074"
+	}
+	, {
+		"icon_class": "icon-comment",
+		"font_code": "f075"
+	}
+	, {
+		"icon_class": "icon-magnet",
+		"font_code": "f076"
+	}
+	, {
+		"icon_class": "icon-chevron-up",
+		"font_code": "f077"
+	}
+	, {
+		"icon_class": "icon-chevron-down",
+		"font_code": "f078"
+	}
+	, {
+		"icon_class": "icon-retweet",
+		"font_code": "f079"
+	}
+	, {
+		"icon_class": "icon-shopping-cart",
+		"font_code": "f07a"
+	}
+	, {
+		"icon_class": "icon-folder-close",
+		"font_code": "f07b"
+	}
+	, {
+		"icon_class": "icon-folder-open",
+		"font_code": "f07c"
+	}
+	, {
+		"icon_class": "icon-resize-vertical",
+		"font_code": "f07d"
+	}
+	, {
+		"icon_class": "icon-resize-horizontal",
+		"font_code": "f07e"
+	}
+	, {
+		"icon_class": "icon-bar-chart",
+		"font_code": "f080"
+	}
+	, {
+		"icon_class": "icon-twitter-sign",
+		"font_code": "f081"
+	}
+	, {
+		"icon_class": "icon-facebook-sign",
+		"font_code": "f082"
+	}
+	, {
+		"icon_class": "icon-camera-retro",
+		"font_code": "f083"
+	}
+	, {
+		"icon_class": "icon-key",
+		"font_code": "f084"
+	}
+	, {
+		"icon_class": "icon-cogs",
+		"font_code": "f085"
+	}
+	, {
+		"icon_class": "icon-comments",
+		"font_code": "f086"
+	}
+	, {
+		"icon_class": "icon-thumbs-up",
+		"font_code": "f087"
+	}
+	, {
+		"icon_class": "icon-thumbs-down",
+		"font_code": "f088"
+	}
+	, {
+		"icon_class": "icon-star-half",
+		"font_code": "f089"
+	}
+	, {
+		"icon_class": "icon-heart-empty",
+		"font_code": "f08a"
+	}
+	, {
+		"icon_class": "icon-signout",
+		"font_code": "f08b"
+	}
+	, {
+		"icon_class": "icon-linkedin-sign",
+		"font_code": "f08c"
+	}
+	, {
+		"icon_class": "icon-pushpin",
+		"font_code": "f08d"
+	}
+	, {
+		"icon_class": "icon-external-link",
+		"font_code": "f08e"
+	}
+	, {
+		"icon_class": "icon-signin",
+		"font_code": "f090"
+	}
+	, {
+		"icon_class": "icon-trophy",
+		"font_code": "f091"
+	}
+	, {
+		"icon_class": "icon-github-sign",
+		"font_code": "f092"
+	}
+	, {
+		"icon_class": "icon-upload-alt",
+		"font_code": "f093"
+	}
+	, {
+		"icon_class": "icon-lemon",
+		"font_code": "f094"
+	}
+	, {
+		"icon_class": "icon-phone",
+		"font_code": "f095"
+	}
+	, {
+		"icon_class": "icon-check-empty",
+		"font_code": "f096"
+	}
+	, {
+		"icon_class": "icon-bookmark-empty",
+		"font_code": "f097"
+	}
+	, {
+		"icon_class": "icon-phone-sign",
+		"font_code": "f098"
+	}
+	, {
+		"icon_class": "icon-twitter",
+		"font_code": "f099"
+	}
+	, {
+		"icon_class": "icon-facebook",
+		"font_code": "f09a"
+	}
+	, {
+		"icon_class": "icon-github",
+		"font_code": "f09b"
+	}
+	, {
+		"icon_class": "icon-unlock",
+		"font_code": "f09c"
+	}
+	, {
+		"icon_class": "icon-credit-card",
+		"font_code": "f09d"
+	}
+	, {
+		"icon_class": "icon-rss",
+		"font_code": "f09e"
+	}
+	, {
+		"icon_class": "icon-hdd",
+		"font_code": "f0a0"
+	}
+	, {
+		"icon_class": "icon-bullhorn",
+		"font_code": "f0a1"
+	}
+	, {
+		"icon_class": "icon-bell",
+		"font_code": "f0a2"
+	}
+	, {
+		"icon_class": "icon-certificate",
+		"font_code": "f0a3"
+	}
+	, {
+		"icon_class": "icon-hand-right",
+		"font_code": "f0a4"
+	}
+	, {
+		"icon_class": "icon-hand-left",
+		"font_code": "f0a5"
+	}
+	, {
+		"icon_class": "icon-hand-up",
+		"font_code": "f0a6"
+	}
+	, {
+		"icon_class": "icon-hand-down",
+		"font_code": "f0a7"
+	}
+	, {
+		"icon_class": "icon-circle-arrow-left",
+		"font_code": "f0a8"
+	}
+	, {
+		"icon_class": "icon-circle-arrow-right",
+		"font_code": "f0a9"
+	}
+	, {
+		"icon_class": "icon-circle-arrow-up",
+		"font_code": "f0aa"
+	}
+	, {
+		"icon_class": "icon-circle-arrow-down",
+		"font_code": "f0ab"
+	}
+	, {
+		"icon_class": "icon-globe",
+		"font_code": "f0ac"
+	}
+	, {
+		"icon_class": "icon-wrench",
+		"font_code": "f0ad"
+	}
+	, {
+		"icon_class": "icon-tasks",
+		"font_code": "f0ae"
+	}
+	, {
+		"icon_class": "icon-filter",
+		"font_code": "f0b0"
+	}
+	, {
+		"icon_class": "icon-briefcase",
+		"font_code": "f0b1"
+	}
+	, {
+		"icon_class": "icon-fullscreen",
+		"font_code": "f0b2"
+	}
+	, {
+		"icon_class": "icon-group",
+		"font_code": "f0c0"
+	}
+	, {
+		"icon_class": "icon-link",
+		"font_code": "f0c1"
+	}
+	, {
+		"icon_class": "icon-cloud",
+		"font_code": "f0c2"
+	}
+	, {
+		"icon_class": "icon-beaker",
+		"font_code": "f0c3"
+	}
+	, {
+		"icon_class": "icon-cut",
+		"font_code": "f0c4"
+	}
+	, {
+		"icon_class": "icon-copy",
+		"font_code": "f0c5"
+	}
+	, {
+		"icon_class": "icon-paper-clip",
+		"font_code": "f0c6"
+	}
+	, {
+		"icon_class": "icon-save",
+		"font_code": "f0c7"
+	}
+	, {
+		"icon_class": "icon-sign-blank",
+		"font_code": "f0c8"
+	}
+	, {
+		"icon_class": "icon-reorder",
+		"font_code": "f0c9"
+	}
+	, {
+		"icon_class": "icon-list-ul",
+		"font_code": "f0ca"
+	}
+	, {
+		"icon_class": "icon-list-ol",
+		"font_code": "f0cb"
+	}
+	, {
+		"icon_class": "icon-strikethrough",
+		"font_code": "f0cc"
+	}
+	, {
+		"icon_class": "icon-underline",
+		"font_code": "f0cd"
+	}
+	, {
+		"icon_class": "icon-table",
+		"font_code": "f0ce"
+	}
+	, {
+		"icon_class": "icon-magic",
+		"font_code": "f0d0"
+	}
+	, {
+		"icon_class": "icon-truck",
+		"font_code": "f0d1"
+	}
+	, {
+		"icon_class": "icon-pinterest",
+		"font_code": "f0d2"
+	}
+	, {
+		"icon_class": "icon-pinterest-sign",
+		"font_code": "f0d3"
+	}
+	, {
+		"icon_class": "icon-google-plus-sign",
+		"font_code": "f0d4"
+	}
+	, {
+		"icon_class": "icon-google-plus",
+		"font_code": "f0d5"
+	}
+	, {
+		"icon_class": "icon-money",
+		"font_code": "f0d6"
+	}
+	, {
+		"icon_class": "icon-caret-down",
+		"font_code": "f0d7"
+	}
+	, {
+		"icon_class": "icon-caret-up",
+		"font_code": "f0d8"
+	}
+	, {
+		"icon_class": "icon-caret-left",
+		"font_code": "f0d9"
+	}
+	, {
+		"icon_class": "icon-caret-right",
+		"font_code": "f0da"
+	}
+	, {
+		"icon_class": "icon-columns",
+		"font_code": "f0db"
+	}
+	, {
+		"icon_class": "icon-sort",
+		"font_code": "f0dc"
+	}
+	, {
+		"icon_class": "icon-sort-down",
+		"font_code": "f0dd"
+	}
+	, {
+		"icon_class": "icon-sort-up",
+		"font_code": "f0de"
+	}
+	, {
+		"icon_class": "icon-envelope-alt",
+		"font_code": "f0e0"
+	}
+	, {
+		"icon_class": "icon-linkedin",
+		"font_code": "f0e1"
+	}
+	, {
+		"icon_class": "icon-undo;icon-rotate-left",
+		"font_code": "f0e2"
+	}
+	, {
+		"icon_class": "icon-legal",
+		"font_code": "f0e3"
+	}
+	, {
+		"icon_class": "icon-dashboard",
+		"font_code": "f0e4"
+	}
+	, {
+		"icon_class": "icon-comment-alt",
+		"font_code": "f0e5"
+	}
+	, {
+		"icon_class": "icon-comments-alt",
+		"font_code": "f0e6"
+	}
+	, {
+		"icon_class": "icon-bolt",
+		"font_code": "f0e7"
+	}
+	, {
+		"icon_class": "icon-sitemap",
+		"font_code": "f0e8"
+	}
+	, {
+		"icon_class": "icon-umbrella",
+		"font_code": "f0e9"
+	}
+	, {
+		"icon_class": "icon-paste",
+		"font_code": "f0ea"
+	}
+	, {
+		"icon_class": "icon-lightbulb",
+		"font_code": "f0eb"
+	}
+	, {
+		"icon_class": "icon-exchange",
+		"font_code": "f0ec"
+	}
+	, {
+		"icon_class": "icon-cloud-download",
+		"font_code": "f0ed"
+	}
+	, {
+		"icon_class": "icon-cloud-upload",
+		"font_code": "f0ee"
+	}
+	, {
+		"icon_class": "icon-user-md",
+		"font_code": "f0f0"
+	}
+	, {
+		"icon_class": "icon-stethoscope",
+		"font_code": "f0f1"
+	}
+	, {
+		"icon_class": "icon-suitcase",
+		"font_code": "f0f2"
+	}
+	, {
+		"icon_class": "icon-bell-alt",
+		"font_code": "f0f3"
+	}
+	, {
+		"icon_class": "icon-coffee",
+		"font_code": "f0f4"
+	}
+	, {
+		"icon_class": "icon-food",
+		"font_code": "f0f5"
+	}
+	, {
+		"icon_class": "icon-file-alt",
+		"font_code": "f0f6"
+	}
+	, {
+		"icon_class": "icon-building",
+		"font_code": "f0f7"
+	}
+	, {
+		"icon_class": "icon-hospital",
+		"font_code": "f0f8"
+	}
+	, {
+		"icon_class": "icon-ambulance",
+		"font_code": "f0f9"
+	}
+	, {
+		"icon_class": "icon-medkit",
+		"font_code": "f0fa"
+	}
+	, {
+		"icon_class": "icon-fighter-jet",
+		"font_code": "f0fb"
+	}
+	, {
+		"icon_class": "icon-beer",
+		"font_code": "f0fc"
+	}
+	, {
+		"icon_class": "icon-h-sign",
+		"font_code": "f0fd"
+	}
+	, {
+		"icon_class": "icon-plus-sign-alt",
+		"font_code": "f0fe"
+	}
+	, {
+		"icon_class": "icon-double-angle-left",
+		"font_code": "f100"
+	}
+	, {
+		"icon_class": "icon-double-angle-right",
+		"font_code": "f101"
+	}
+	, {
+		"icon_class": "icon-double-angle-up",
+		"font_code": "f102"
+	}
+	, {
+		"icon_class": "icon-double-angle-down",
+		"font_code": "f103"
+	}
+	, {
+		"icon_class": "icon-angle-left",
+		"font_code": "f104"
+	}
+	, {
+		"icon_class": "icon-angle-right",
+		"font_code": "f105"
+	}
+	, {
+		"icon_class": "icon-angle-up",
+		"font_code": "f106"
+	}
+	, {
+		"icon_class": "icon-angle-down",
+		"font_code": "f107"
+	}
+	, {
+		"icon_class": "icon-desktop",
+		"font_code": "f108"
+	}
+	, {
+		"icon_class": "icon-laptop",
+		"font_code": "f109"
+	}
+	, {
+		"icon_class": "icon-tablet",
+		"font_code": "f10a"
+	}
+	, {
+		"icon_class": "icon-mobile-phone",
+		"font_code": "f10b"
+	}
+	, {
+		"icon_class": "icon-circle-blank",
+		"font_code": "f10c"
+	}
+	, {
+		"icon_class": "icon-quote-left",
+		"font_code": "f10d"
+	}
+	, {
+		"icon_class": "icon-quote-right",
+		"font_code": "f10e"
+	}
+	, {
+		"icon_class": "icon-spinner",
+		"font_code": "f110"
+	}
+	, {
+		"icon_class": "icon-circle",
+		"font_code": "f111"
+	}
+	, {
+		"icon_class": "icon-reply;icon-mail-reply",
+		"font_code": "f112"
+	}
+	, {
+		"icon_class": "icon-folder-close-alt",
+		"font_code": "f114"
+	}
+	, {
+		"icon_class": "icon-folder-open-alt",
+		"font_code": "f115"
+	}
+	, {
+		"icon_class": "icon-expand-alt",
+		"font_code": "f116"
+	}
+	, {
+		"icon_class": "icon-collapse-alt",
+		"font_code": "f117"
+	}
+	, {
+		"icon_class": "icon-smile",
+		"font_code": "f118"
+	}
+	, {
+		"icon_class": "icon-frown",
+		"font_code": "f119"
+	}
+	, {
+		"icon_class": "icon-meh",
+		"font_code": "f11a"
+	}
+	, {
+		"icon_class": "icon-gamepad",
+		"font_code": "f11b"
+	}
+	, {
+		"icon_class": "icon-keyboard",
+		"font_code": "f11c"
+	}
+	, {
+		"icon_class": "icon-flag-alt",
+		"font_code": "f11d"
+	}
+	, {
+		"icon_class": "icon-flag-checkered",
+		"font_code": "f11e"
+	}
+	, {
+		"icon_class": "icon-terminal",
+		"font_code": "f120"
+	}
+	, {
+		"icon_class": "icon-code",
+		"font_code": "f121"
+	}
+	, {
+		"icon_class": "icon-reply-all",
+		"font_code": "f122"
+	}
+	, {
+		"icon_class": "icon-mail-reply-all",
+		"font_code": "f122"
+	}
+	, {
+		"icon_class": "icon-star-half-full;icon-star-half-empty",
+		"font_code": "f123"
+	}
+	, {
+		"icon_class": "icon-location-arrow",
+		"font_code": "f124"
+	}
+	, {
+		"icon_class": "icon-crop",
+		"font_code": "f125"
+	}
+	, {
+		"icon_class": "icon-code-fork",
+		"font_code": "f126"
+	}
+	, {
+		"icon_class": "icon-unlink",
+		"font_code": "f127"
+	}
+	, {
+		"icon_class": "icon-question",
+		"font_code": "f128"
+	}
+	, {
+		"icon_class": "icon-info",
+		"font_code": "f129"
+	}
+	, {
+		"icon_class": "icon-exclamation",
+		"font_code": "f12a"
+	}
+	, {
+		"icon_class": "icon-superscript",
+		"font_code": "f12b"
+	}
+	, {
+		"icon_class": "icon-subscript",
+		"font_code": "f12c"
+	}
+	, {
+		"icon_class": "icon-eraser",
+		"font_code": "f12d"
+	}
+	, {
+		"icon_class": "icon-puzzle-piece",
+		"font_code": "f12e"
+	}
+	, {
+		"icon_class": "icon-microphone",
+		"font_code": "f130"
+	}
+	, {
+		"icon_class": "icon-microphone-off",
+		"font_code": "f131"
+	}
+	, {
+		"icon_class": "icon-shield",
+		"font_code": "f132"
+	}
+	, {
+		"icon_class": "icon-calendar-empty",
+		"font_code": "f133"
+	}
+	, {
+		"icon_class": "icon-fire-extinguisher",
+		"font_code": "f134"
+	}
+	, {
+		"icon_class": "icon-rocket",
+		"font_code": "f135"
+	}
+	, {
+		"icon_class": "icon-maxcdn",
+		"font_code": "f136"
+	}
+	, {
+		"icon_class": "icon-chevron-sign-left",
+		"font_code": "f137"
+	}
+	, {
+		"icon_class": "icon-chevron-sign-right",
+		"font_code": "f138"
+	}
+	, {
+		"icon_class": "icon-chevron-sign-up",
+		"font_code": "f139"
+	}
+	, {
+		"icon_class": "icon-chevron-sign-down",
+		"font_code": "f13a"
+	}
+	, {
+		"icon_class": "icon-html5",
+		"font_code": "f13b"
+	}
+	, {
+		"icon_class": "icon-css3",
+		"font_code": "f13c"
+	}
+	, {
+		"icon_class": "icon-anchor",
+		"font_code": "f13d"
+	}
+	, {
+		"icon_class": "icon-unlock-alt",
+		"font_code": "f13e"
+	}
+	, {
+		"icon_class": "icon-bullseye",
+		"font_code": "f140"
+	}
+	, {
+		"icon_class": "icon-ellipsis-horizontal",
+		"font_code": "f141"
+	}
+	, {
+		"icon_class": "icon-ellipsis-vertical",
+		"font_code": "f142"
+	}
+	, {
+		"icon_class": "icon-rss-sign",
+		"font_code": "f143"
+	}
+	, {
+		"icon_class": "icon-play-sign",
+		"font_code": "f144"
+	}
+	, {
+		"icon_class": "icon-ticket",
+		"font_code": "f145"
+	}
+	, {
+		"icon_class": "icon-minus-sign-alt",
+		"font_code": "f146"
+	}
+	, {
+		"icon_class": "icon-check-minus",
+		"font_code": "f147"
+	}
+	, {
+		"icon_class": "icon-level-up",
+		"font_code": "f148"
+	}
+	, {
+		"icon_class": "icon-level-down",
+		"font_code": "f149"
+	}
+	, {
+		"icon_class": "icon-check-sign",
+		"font_code": "f14a"
+	}
+	, {
+		"icon_class": "icon-edit-sign",
+		"font_code": "f14b"
+	}
+	, {
+		"icon_class": "icon-external-link-sign",
+		"font_code": "f14c"
+	}
+	, {
+		"icon_class": "icon-share-sign",
+		"font_code": "f14d"
+	}
+]

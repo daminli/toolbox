@@ -1,0 +1,21 @@
+{
+    "type": "jsoverrideresource",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "activity": "view",
+        "designer|userClassName": "js",
+        "url": "app/override/button/Button.js"
+    },
+    "designerId": "7bc0836b-9b94-4aa3-bf20-2c904586fa24",
+    "customConfigs": [
+        {
+            "group": "(Custom Properties)",
+            "name": "activity",
+            "type": "string"
+        }
+    ]
+}

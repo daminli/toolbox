@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html class="x-strict x-viewport">
+<head>
+<title>Planning Toolbox</title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="Access-Control-Allow-Origin" content="*">
+<script src="/static/libs/extjs/{{extjs_libs}}"></script>
+<script src="/static/libs/extjs/theme-triton/theme-triton.js"></script>
+<link rel="stylesheet"	href="/static/libs/extjs/theme-triton/resources/theme-triton-all.css">
+<link rel="stylesheet" href="/static/common/resources/css/toolbox.css">
+<link rel="stylesheet" href="/static/libs/ux/css/statusbar.css">
+<link rel="shortcut icon" href="{{url_for('static',filename='favicon.ico')}}" />
+<script src="/static/common/Dg/app/override/button/Button.js"></script>
+<script src="/static/common/Dg/app/override/form/DisplayField.js"></script>
+<script type="text/javascript"	src="/static/common/resources/js/common.js"></script>
+<!--script type="text/javascript" src="/extdirect-api.js?timeid={{timeid}}"></script-->
+<script type="text/javascript">
+      Ext.Loader.setConfig({
+            enabled : true
+        });
+   {% for class in class_paths %}
+      Ext.Loader.setPath('{{class}}', STATIC_ROOT + '/toolbox/{{class}}');
+   {% endfor %}
+      Ext.onReady(function() {
+                Ext.create('Ext.app.Application', {
+                            autoCreateViewport : false,
+                            name : '{{package}}',
+                            launch : function() {
+                                me = this;
+                                Ext.create('{{package}}.view.{{page}}', {
+                                            application : me
+                                        });
+                            }
+                        });
+            });
+  </script>
+{% autoescape false %}
+<script type="text/javascript">
+       var userAcl = {{user_acl}};
+      // Ext.direct.Manager.addProvider(Ext.app.REMOTING_API);
+  </script>
+{% endautoescape %}
+</head>
+<body>
+</body>
+</html>

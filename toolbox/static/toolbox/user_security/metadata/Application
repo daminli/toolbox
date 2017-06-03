@@ -1,0 +1,28 @@
+{
+    "type": "Ext.app.Application",
+    "reference": {
+        "name": "items",
+        "type": "array"
+    },
+    "codeClass": null,
+    "userConfig": {
+        "models": [
+            "MyModel"
+        ],
+        "stores": [
+            "MyJsonStore"
+        ],
+        "views": [
+            "Users",
+            "UserActivity",
+            "UserGroup",
+            "UserRole"
+        ],
+        "autoCreateViewport": true,
+        "controllers": [
+            "MyController"
+        ],
+        "name": "user_security"
+    },
+    "designerId": "application"
+}
