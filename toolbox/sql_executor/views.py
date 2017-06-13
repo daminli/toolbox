@@ -15,7 +15,7 @@ app=current_app
 lm = current_app.login_manager
 db=g.db
 
-@sqlexec.route('/new_request',methods = ['GET','POST'])
+@sqlexec.route('/new_request/',methods = ['GET','POST'])
 @login_required
 def new_request():
     """
@@ -29,7 +29,7 @@ def new_request():
     db.session.flush()
     return json_response(success=True, data=result)
 
-@sqlexec.route('/run_script',methods = ['POST'])
+@sqlexec.route('/run_script/',methods = ['POST'])
 @login_required
 def run_script():
     """
@@ -42,7 +42,7 @@ def run_script():
     result=executor.run_script(exec_id, scripts, ds_name, user_id)
     return json_response(success=result['success'],data=result['data'])
 
-@sqlexec.route('/run_script_block',methods = ['POST'])
+@sqlexec.route('/run_script_block/',methods = ['POST'])
 @login_required
 def run_script_block(json_response):
     """
@@ -55,7 +55,7 @@ def run_script_block(json_response):
     result = executor.run_script_block(exec_id, scripts, ds_name, user_id)
     return json_response(result=result)
 
-@sqlexec.route('/get_history',methods = ['GET','POST'])
+@sqlexec.route('/get_history/',methods = ['GET','POST'])
 @login_required
 def get_history():
     """
@@ -72,22 +72,22 @@ def get_history():
     result= query.all()
     return json_response(result=result)
 
-@sqlexec.route('/get_run_log',methods = ['POST'])
+@sqlexec.route('/get_run_log/',methods = ['GET'])
 @login_required
 def get_run_log():
     """
     get run log by exec_id
     """
-    params=request.params
+    params=request.values
     result = ExecRunLog.query.filter(ExecRunLog.exec_id==params['exec_id']).all()
     return json_response(result=result)
 
-@sqlexec.route('/get_run_detail',methods = ['POST'])
+@sqlexec.route('/get_run_detail/',methods = ['GET'])
 @login_required
-def get_run_detail(request):
+def get_run_detail():
     """
     get sql run details by run_id
     """
-    params=request.params
+    params=request.values
     result=ExecRunDetail.query.filter(ExecRunDetail.run_id==params['run_id']).all()
     return json_response(result=result)

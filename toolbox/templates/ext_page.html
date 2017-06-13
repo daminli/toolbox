@@ -22,6 +22,7 @@
    {% for class in class_paths %}
       Ext.Loader.setPath('{{class}}', STATIC_ROOT + '/toolbox/{{class}}');
    {% endfor %}
+      APP_ROOT='{{request.script_root}}';
       Ext.onReady(function() {
                 Ext.create('Ext.app.Application', {
                             autoCreateViewport : false,

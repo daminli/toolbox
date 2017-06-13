@@ -13,11 +13,13 @@ from sqlalchemy import text
 from sqlalchemy.ext.hybrid import hybrid_property
 from sqlalchemy import create_engine
 from sqlalchemy.pool import NullPool
-from flask import g
+from flask import g, current_app
 
 from util.id_generator import IdGenerator
 
 db=g.db
+
+app=current_app
 
 class DataSource(db.Model):
     '''
@@ -40,15 +42,18 @@ class DataSource(db.Model):
     
     @hybrid_property
     def password(self):
-        return base64.decodestring(self._password)
+        decodestr = base64.b64decode(self._password.encode())
+        print(decodestr.decode())
+        return decodestr.decode()
 
     @password.setter
     def password(self,password):
-        self._password = base64.encodestring(password)
+        encodestr = base64.b64encode(password.encode())
+        self._password = encodestr.decode()
         
     def create_pool(self):
-        self.engine=create_engine('oracle://'+self.user_name+':'+self.password+'@'+self.db_connect,pool_size=10, max_overflow=20)
-        self.null_pool_engine = create_engine('oracle://'+self.user_name+':'+self.password+'@'+self.db_connect,poolclass=NullPool)
+        self.engine=create_engine(self.ds_type+'://'+self.user_name+':'+self.password+'@'+self.db_connect,pool_size=10, max_overflow=20)
+        self.null_pool_engine = create_engine(self.ds_type+'://'+self.user_name+':'+self.password+'@'+self.db_connect,poolclass=NullPool)
         #=======================================================================
         # if self.ds_type=='sqlalchemy' or self.ds_type==None:
         #     self.engine=create_engine('oracle://'+self.user_name+':'+self.password+'@'+self.db_connect)
@@ -65,7 +70,7 @@ class DataSourceEngine:
         
     def __init__(self,ds_name):
         if ds_name not in DataSourceEngine._engine_list:
-            ds=db.query(DataSource).filter(DataSource.name==ds_name).first()
+            ds=db.session.query(DataSource).filter(DataSource.name==ds_name).first()
             if ds:
                 ds.create_pool()
                 DataSourceEngine._engine_list[ds_name]=ds

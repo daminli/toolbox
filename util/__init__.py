@@ -32,11 +32,3 @@ NAV_DATA = dict(
                               type='url'
                             )]
                     )
-
-def includeme(config):
-    config.add_route('selection_list', '/selection_list')
-    config.add_route('save_data_source', '/save_data_source')
-    config.add_route('test_data_source', '/test_data_source')
-    config.add_route('get_data_source', '/get_data_source')
-    config.add_route('del_data_source', '/del_data_source')
-    config.add_route('test_url', '/test_url')

@@ -11,40 +11,43 @@ from util import common
 
 db=g.db
 
-@common.route('/selection_list',methods = ['GET'])
+@common.route('/selectlist/',methods = ['GET'])
 @login_required
-def selection_list(request):
+def get_selectlist():
     """
-    get the report folder tree structure json data
+    get the select list base on the selection defination
     """
-    name = request.params['name']
-    selection = db.query(Selection).filter(Selection.name==name).first()
-    return as_json(selection.get_selection())
+    name = request.values['name']
+    selection = Selection.query.filter(Selection.name==name).first()
+    return json_response(selectlist=selection.get_selectlist())
 
-@common.route('/selections',methods = ['GET'])
+@common.route('/selections/',methods = ['GET'])
 @login_required
-def get_selections(params,request):
-    query = db.query(Selection)
+def get_selections():
+    query = Selection.query
+    params=request.values
     if params.get('name',''):
         query=query.filter(getattr(Selection,'name').like('%'+params['name']+'%'))
     result = query.all()
-    return as_json(result)
+    return json_response(selections=result)
 
-@common.route('/selections',methods = ['POST'])
+@common.route('/selections/',methods = ['POST'])
 @login_required
-def save_selections(params,request):
+def save_selections():
+    params=request.values
     selection = Selection(name=params['name'],type=params['type'],config=params['config'])
     if params.get('datasource',None):
         selection.datasource=params['datasource']
-    result= db.merge(selection)
-    return json_response(success=True,data=result)
+    result= db.session.merge(selection)
+    return json_response(success=True,selection=result)
 
-@common.route('/selections',methods = ['DELETE'])
+@common.route('/selections/',methods = ['DELETE'])
 @login_required
-def del_selections(params,request):
-    selection = db.query(Selection).filter(Selection.name==params['name']).first()
-    db.delete(selection)
-    result=db.flush()
+def del_selections():
+    params=request.values
+    selection = Selection.query.filter(Selection.name==params['name']).first()
+    db.session.delete(selection)
+    result=db.session.flush()
     return json_response(success=True,data=result)
 
     

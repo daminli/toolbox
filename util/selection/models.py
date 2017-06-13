@@ -48,10 +48,10 @@ class Selection(db.Model):
     config = Column('config',Text)
     datasource=Column('datasource',String(32))
      
-    def get_selection(self):
+    def get_selectlist(self):
         params={}
         if self.type=='code_type':
-            sql_text='select value_name text, value_id value from sys_code_type a join sys_code_value b on a.type_id = b.TYPE_ID where a.TYPE_NAME =:type_name  order by text'
+            sql_text='select value_name "text", value_id "value" from sys_code_type a join sys_code_value b on a.type_id = b.TYPE_ID where a.TYPE_NAME =:type_name  order by text'
             params=dict(type_name=self.config)
         if self.type=='sql':
             sql_text=self.config
@@ -67,7 +67,7 @@ class Selection(db.Model):
             finally:
                 conn.close()
         else:
-            resultProxy=db.execute(text(sql_text),params)
+            resultProxy=db.session.execute(text(sql_text),params)
             result = resultProxy.fetchall()
             resultProxy.close()
         return result

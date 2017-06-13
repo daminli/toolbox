@@ -7,6 +7,8 @@ class Config(object):
         'en': 'English',
         'zh': 'Chinese'
     }
+    SERVER_NAME='toolbox.local.com'
+    #APPLICATION_ROOT='/toolbox'
     # slow database query threshold (in seconds)
     DATABASE_QUERY_TIMEOUT = 30
     CSRF_ENABLED = True
@@ -14,7 +16,7 @@ class Config(object):
     SECRET_KEY = 'welcome-to-my-planning-toolbox'
     SQLALCHEMY_DATABASE_URI='postgresql://postgres:admin@localhost/postgres'
     SQLALCHEMY_MIGRATE_REPO=basedir+'\\db_repository'
-    SQLALCHEMY_ECHO=True
+    SQLALCHEMY_ECHO=False
     
     CACHE_TYPE='simple'
     DATE_FORMAT='%Y/%m/%d'

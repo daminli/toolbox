@@ -1,0 +1,22 @@
+
+git add *
+git rm *.pyc
+git commit -m "remove *.pyc"
+git push origin master
+
+
+cd .git 
+vim config
+
+cd .git/info
+vim exclude
+
+git config --global core.excludesfile ~/.gitignoreglobal
+
+guide
+http://www.runoob.com/w3cnote/git-guide.html
+
+#check out
+git clone /path/to/repository 
+
+git remote add origin git@github.com:yourName/yourRepo.git

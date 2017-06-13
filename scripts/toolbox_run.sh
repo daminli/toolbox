@@ -1,7 +1,8 @@
 cd /home/damin/python_workspace
-source flask_venv/bin/activate
+source /home/damin/python_workspace/flask_venv/bin/activate
 export FLASK_APP=toolbox.py
-export FLASK_DEBUG=1
+export FLASK_DEBUG=True
 export APPLICATION_SETTINGS=app_settings.ProductionConfig
-cd toolbox
-flask run
+cd /home/damin/python_workspace/toolbox
+#flask run
+uwsgi config.ini

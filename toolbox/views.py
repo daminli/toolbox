@@ -1,12 +1,12 @@
 import re,os,time
 from json import JSONEncoder
 
-from flask import render_template,  redirect, url_for, g,current_app
+from flask import render_template,  redirect, url_for, g,current_app, request
 from flask_login import current_user, login_required
 from flask_sqlalchemy import get_debug_queries
 from flask_json import json_response, as_json
 
-from toolbox import navigation
+from . import navigation
 from datetime import datetime
 import toolbox
 import util
@@ -37,7 +37,7 @@ def ext_page(package,page):
     user_acl=dict(view=True,create=True,edit=True,delete=False,upload=False)
     user_acl=JSONEncoder().encode(user_acl)
     
-    path=os.path.dirname(toolbox.__file__)+os.path.sep+'static'+os.path.sep+'toolbox'
+    path=app.static_folder+os.path.sep+'toolbox'
     class_paths=[]
     for temp in os.listdir(path):
         if os.path.isdir(path+os.path.sep+temp):
@@ -58,6 +58,10 @@ def get_navigation():
             child_tree = menu["children"]
             for temp in child_tree:
                 add_leaf(temp)
+                #add script_root before the navigation target
+                if temp.get('type',None)=='url' and temp.get('target',None):
+                    if temp['target'].startswith('/'):
+                        temp['target']=request.script_root+temp['target']
         except KeyError:
             menu["leaf"]="true"
             
@@ -111,4 +115,8 @@ def favicon_ico():
 
 @app.route('/url_map', methods = ['GET'])
 def url_map():
-    return json_response(result=app.url_map)
+    url_list=[]
+    for rule in list(app.url_map.iter_rules()):
+        url_list.append(rule.__repr__())
+    url_list.sort()
+    return json_response(url_rules=url_list,name=request.script_root)

@@ -17,9 +17,9 @@ def run_script(exec_id,scripts,ds_name,user_id):
     run script by split the sql
     '''
     run_log = ExecRunLog(exec_id=exec_id,script=scripts,start_time=datetime.now(),run_by=user_id,data_source=ds_name)
-    db.begin(subtransactions=True)
-    run_log= db.merge(run_log)
-    db.commit()
+    db.session.begin(subtransactions=True)
+    run_log= db.session.merge(run_log)
+    db.session.commit()
     run_id = run_log.id
     #split the script to sql list
     sql_list = []
@@ -53,14 +53,15 @@ def run_script(exec_id,scripts,ds_name,user_id):
                     temp.result = str(e)
                     temp.status = 'failure'
                     run_details.append(temp)
+                    raise(e)
         finally:
             trans.commit()
             conn.close()
         
         #save the run detail log to database
-        db.begin(subtransactions=True)
-        db.add_all(run_details)
-        db.commit()
+        db.session.begin(subtransactions=True)
+        db.session.add_all(run_details)
+        db.session.commit()
     except Exception as e:
         #update the run log endtime, result and status
         run_log.end_time=datetime.now()
@@ -68,6 +69,7 @@ def run_script(exec_id,scripts,ds_name,user_id):
         error = str(e)
         run_log.status = 'failure'
         run_success=False
+        raise(e)
     else:
         #update the run log endtime, result and status
         run_log.end_time=datetime.now()
@@ -77,9 +79,9 @@ def run_script(exec_id,scripts,ds_name,user_id):
             run_log.status = 'success with gap'
         else:
             run_log.status = 'success'
-    db.begin(subtransactions=True)
-    db.merge(run_log)
-    db.commit()
+    db.session.begin(subtransactions=True)
+    db.session.merge(run_log)
+    db.session.commit()
     return dict(success=run_success,data=dict(run_id=run_log.id,run_detail=run_details,error=error))
 
 def run_script_block(exec_id,scripts,ds_name,user_id):
@@ -88,8 +90,8 @@ def run_script_block(exec_id,scripts,ds_name,user_id):
     '''
     run_log = ExecRunLog(exec_id=exec_id,script=scripts,start_time=datetime.now(),run_by=user_id,data_source=ds_name)
     db.begin(subtransactions=True)
-    run_log= db.merge(run_log)
-    db.commit()
+    run_log= db.session.merge(run_log)
+    db.session.commit()
     run_id = run_log.id
     
     try:
@@ -123,9 +125,9 @@ def run_script_block(exec_id,scripts,ds_name,user_id):
             conn.close()
         
         #save the run detail log to database
-        db.begin(subtransactions=True)
-        db.add_all(run_details)
-        db.commit()
+        db.session.begin(subtransactions=True)
+        db.session.add_all(run_details)
+        db.session.commit()
     except Exception as e:
         #update the run log endtime, result and status
         run_log.end_time=datetime.now()
@@ -142,8 +144,8 @@ def run_script_block(exec_id,scripts,ds_name,user_id):
             run_log.status = 'success with gap'
         else:
             run_log.status = 'success'
-    db.begin(subtransactions=True)
-    db.merge(run_log)
-    db.commit()
+    db.session.begin(subtransactions=True)
+    db.session.merge(run_log)
+    db.session.commit()
     return dict(success=run_success,data=dict(run_id=run_log.id,run_detail=run_details,error=error))
         
