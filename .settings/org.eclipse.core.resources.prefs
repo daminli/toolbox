@@ -1,0 +1,12 @@
+eclipse.preferences.version=1
+encoding//toolbox/action/models.py=utf-8
+encoding//toolbox/action/tasks.py=utf-8
+encoding//toolbox/action/views.py=utf-8
+encoding//toolbox/free_query/exceptions.py=utf-8
+encoding//toolbox/free_query/exportor.py=utf-8
+encoding//toolbox/free_query/models.py=utf-8
+encoding//toolbox/sql_executor/executor.py=utf-8
+encoding//toolbox/sql_executor/models.py=utf-8
+encoding//toolbox/user_security/models.py=utf-8
+encoding//util/datasource/models.py=utf-8
+encoding//util/selection/models.py=utf-8

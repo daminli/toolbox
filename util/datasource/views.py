@@ -17,7 +17,7 @@ app=current_app
 lm = current_app.login_manager
 db=g.db
 
-@common.route('/datasources/',methods = ['POST'])
+@common.route('/datasources',methods = ['POST'])
 @login_required
 def save_datasource():
     """
@@ -34,7 +34,7 @@ def save_datasource():
     result= db.session.merge(data_source)
     return json_response(success=True,data=result)
 
-@common.route('/datasources/',methods = ['DELETE'])
+@common.route('/datasources',methods = ['DELETE'])
 @login_required
 def del_datasource():
     """
@@ -46,7 +46,7 @@ def del_datasource():
     result=db.session.flush()
     return json_response(success=True,data=result)
 
-@common.route('/datasources/',methods = ['GET'])
+@common.route('/datasources',methods = ['GET'])
 @login_required
 def get_datasource():
     """
@@ -59,7 +59,7 @@ def get_datasource():
     data_source=query.all()
     return json_response(datasources=data_source)
     
-@common.route('/datasources/',methods = ['PUT'])
+@common.route('/datasources',methods = ['PUT'])
 @login_required
 def test_datasource():
     """
@@ -68,7 +68,6 @@ def test_datasource():
     params=request.values
     try:
         db_engine = create_engine(params['ds_type']+'://'+params['user_name']+':'+params['password']+'@'+params['db_connect'],poolclass=NullPool)
-        # create a db connection
         conn = db_engine.connect()
         #return dict(success=True,data='connect success')
         try:

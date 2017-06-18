@@ -7,6 +7,9 @@ from toolbox import app
 
 app=app
 
+import sys, locale
+print(sys.stdout.encoding, locale.getpreferredencoding ())
+
 if __name__ == '__main__':
     app.run(debug=True)
 

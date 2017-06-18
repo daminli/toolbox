@@ -2,10 +2,12 @@ from util import lock
 from sqlalchemy import (DateTime,String,Column,Text,Integer,Boolean,BigInteger)
 from sqlalchemy.orm import validates,relationship, backref
 from sqlalchemy import text
+from sqlalchemy.schema import Sequence
 
 from flask import g,current_app
 from kombu.utils import nested
 from builtins import Exception
+from traitlets.config.application import catch_config_error
 
 app=current_app
 db=g.db
@@ -58,14 +60,14 @@ class IdG(db.Model):
     display_name = Column('display_name',String(64))
     start_num = Column('start_num',BigInteger)
     end_num = Column('end_num',BigInteger)
-    current_num = Column('current_num',BigInteger)
+    seq_name = Column('seq_name',String(30),nullable=False)
     prefix = Column('prefix',String(30))
     postfix = Column('postfix',String(30))
-    seq_len = Column('seq_len',Integer)
+    seq_len = Column('seq_len',Integer,nullable=False)
     fill_char = Column('fill_char',String(1))
+    _db_seq=None
     
-    def currval(self):
-        self.current_num = self.current_num if self.current_num else self.start_num
+    def id_format(self):
         prefix=self.prefix if self.prefix else ""
         postfix=self.postfix if self.postfix else ""
         if self.seq_len:
@@ -84,8 +86,15 @@ class IdG(db.Model):
         
         
     def nextval(self):
-        if self.current_num:
-            self.current_num += 1
+        if not self._db_seq:
+            self._db_seq = Sequence(self.seq_name,start=self.start_num,maxvalue=self.end_num,cycle=True)
+            try:
+                self.current_num=db.execute(self._db_seq)
+            except Exception as e:
+                app.logger.debug(str(e))
+                self._db_seq.create(db.engine)
+                db.session.execute(self._db_seq)
+                self.current_num=db.session.execute(self._db_seq)
         else:
-            self.current_num = self.start_num
-        return self.currval()
+            self.current_num=db.session.execute(self._db_seq)
+        return self.id_format()

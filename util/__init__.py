@@ -12,7 +12,7 @@ if not common:
     app.register_blueprint(common, url_prefix='/common')
 
 PREFIX = '/extpage/common'   
-        
+
 NAV_DATA = dict(
                text='Configuration',
                expanded=False,

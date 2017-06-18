@@ -7,9 +7,8 @@ Created on 2013-6-4
 
 import csv,os,zipfile
 from os.path import getsize
-import codecs, cStringIO
+import codecs, io
 from sqlalchemy.engine.result import RowProxy,ResultProxy
-from .. import free_query
 import cfg
 
 def export(file_name,header,dataset,exp_type='direct',format='csv',zip='auto'):
@@ -25,21 +24,27 @@ def export(file_name,header,dataset,exp_type='direct',format='csv',zip='auto'):
     '''
     (dir_name, file_export) = os.path.split(file_name)
     if not os.path.exists(dir_name):
-        os.makedirs(dir_name) 
-    with open(file_name, 'wb') as file:
-        file.write(codecs.BOM_UTF8)
-        writer = UnicodeWriter(file,encoding="utf-8")
+        os.makedirs(dir_name)
+    with open(file_name, 'w',newline='') as file:
+        #file.write(codecs.BOM_UTF8)
+        writer = csv.writer(file,dialect = ("excel"))
+        #writer = UnicodeWriter(file,encoding="utf-8")
         writer.writerow(header)
         total_cnt=0
         if isinstance(dataset,ResultProxy):
             while not dataset.closed:
+                print(dataset.closed)
                 result = dataset.fetchmany(10000)
+                if not result:
+                    break
                 for row in result:
                     total_cnt+=1
                     if isinstance(row,RowProxy):
                         writer.writerow(list(row))
+                        print('list:'+str(list(row)))
                     else:
                         writer.writerow(row)
+                        print(str(list(row)))
         else:
             for row in dataset:
                 total_cnt+=1
@@ -47,8 +52,10 @@ def export(file_name,header,dataset,exp_type='direct',format='csv',zip='auto'):
                     writer.writerow(list(row))
                 else:
                     writer.writerow(row)
+    
     file_size=getsize(file_name)
-    zip_size=cfg.config.registry.settings.get('free_query.auto_zip_size',5)
+    '''
+    zip_size=cfg.FREE_QUERY_MIN_ZIP_SIZE
     if file_size>zip_size*1024*1024:
         zip_filename=os.path.splitext(file_name)[0]+'.zip'
         with zipfile.ZipFile(zip_filename,'w') as z:
@@ -56,6 +63,7 @@ def export(file_name,header,dataset,exp_type='direct',format='csv',zip='auto'):
             z.write(file_name,file_export,zipfile.ZIP_DEFLATED)
             os.remove(file_name)
             file_name=zip_filename
+            '''
     return dict(file_name=file_name,file_size=file_size,zip=zip,total_cnt=total_cnt)
 
 class UTF8Recoder:
@@ -85,7 +93,8 @@ class UnicodeReader:
 
     def next(self):
         row = self.reader.next()
-        return [unicode(s, self.encoding) for s in row]
+        #return [unicode(s, self.encoding) for s in row]
+        return None
 
     def __iter__(self):
         return self
@@ -98,7 +107,7 @@ class UnicodeWriter:
 
     def __init__(self, f, dialect=csv.excel, encoding="utf-8", **kwds):
         # Redirect output to a queue
-        self.queue = cStringIO.StringIO()
+        self.queue = io.StringIO()
         self.writer = csv.writer(self.queue, dialect=dialect, **kwds)
         self.stream = f
         self.encoder = codecs.getincrementalencoder(encoding)()

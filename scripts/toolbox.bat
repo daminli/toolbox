@@ -1,6 +1,9 @@
 d:
-cd D:\mydoc\Workspace\LiClipse Workspace\toolbox1
+cd D:\mydoc\Workspace\flask_workspace\toolbox
 set FLASK_APP=toolbox.py
 set FLASK_DEBUG=1
-set APPLICATION_SETTINGS=app_settings.ProductionConfig
+set PYTHONIOENCODING=utf-8
+set APPLICATION_SETTINGS=cfg.ProductionConfig
 flask run
+
+pause

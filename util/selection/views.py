@@ -11,7 +11,7 @@ from util import common
 
 db=g.db
 
-@common.route('/selectlist/',methods = ['GET'])
+@common.route('/selectlist',methods = ['GET'])
 @login_required
 def get_selectlist():
     """
@@ -21,7 +21,7 @@ def get_selectlist():
     selection = Selection.query.filter(Selection.name==name).first()
     return json_response(selectlist=selection.get_selectlist())
 
-@common.route('/selections/',methods = ['GET'])
+@common.route('/selections',methods = ['GET'])
 @login_required
 def get_selections():
     query = Selection.query
@@ -31,7 +31,7 @@ def get_selections():
     result = query.all()
     return json_response(selections=result)
 
-@common.route('/selections/',methods = ['POST'])
+@common.route('/selections',methods = ['POST'])
 @login_required
 def save_selections():
     params=request.values
@@ -41,7 +41,7 @@ def save_selections():
     result= db.session.merge(selection)
     return json_response(success=True,selection=result)
 
-@common.route('/selections/',methods = ['DELETE'])
+@common.route('/selections',methods = ['DELETE'])
 @login_required
 def del_selections():
     params=request.values

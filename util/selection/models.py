@@ -70,6 +70,7 @@ class Selection(db.Model):
             resultProxy=db.session.execute(text(sql_text),params)
             result = resultProxy.fetchall()
             resultProxy.close()
+            print(text(sql_text))
         return result
         
     

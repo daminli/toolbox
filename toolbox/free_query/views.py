@@ -1,33 +1,30 @@
-import json,os
+import json, uuid, os
+from datetime import date,datetime,timedelta
 
-from pyramid.response import (FileResponse,Response)
-from pyramid.httpexceptions import (
-    HTTPFound,
-    HTTPNotFound,
-    )
-from pyramid.view import (
-    view_config,
-    forbidden_view_config,
-    )
-from pyramid.security import (
-    remember,
-    forget,
-    authenticated_userid,
-    )
+from flask import request, url_for, redirect,render_template, current_app,g,send_from_directory
+from flask_json import json_response, as_json
+from flask_login import logout_user, login_user, login_required, current_user
 
-import cfg
-from models import FolderTree, Reports, FreeQuery,ReportProp
+
 from util.id_generator import IdGenerator
-from exceptions import MissReqFilter
-from .. import free_query
+from .models import FolderTree, Reports, FreeQuery,ReportProp
 
-DBSession=cfg.DBSession
+from .exceptions import MissReqFilter
+from .. import free_query
+from . import freequery
+import cfg
+
+app=current_app
+lm = current_app.login_manager
+db=g.db
+
+
 
 def getChildFolder(parent_folder):
     '''
     get whole report folder tree structure 
     '''
-    temps = DBSession.query(FolderTree).filter(FolderTree.parent_id == parent_folder['id']).all()
+    temps = FolderTree.query.filter(FolderTree.parent_id == parent_folder['id']).all()
     if temps.__len__() == 0:
         parent_folder['leaf'] = "true"
     else:
@@ -42,120 +39,128 @@ def getChildFolder(parent_folder):
         parent_folder['children'].append(folder)
         getChildFolder(folder)
 
-@view_config(route_name='report_folder', renderer='json')
-def report_folder(request):
+@freequery.route('/report_folder',methods = ['GET','POST'])
+@login_required
+def report_folder():
     """
     get the report folder tree structure json data
     """
-    if request.params.get('root_id',False):
-        temp = DBSession.query(FolderTree).filter(FolderTree.id == request.params.get('root_id')).first()
+    if request.values.get('root_id',False):
+        temp = FolderTree.query.filter(FolderTree.id == request.values.get('root_id')).first()
         report_folder = dict(
                 id=temp.id,
                 text=temp.name,
                 expanded=True)
         getChildFolder(report_folder)
-        return [report_folder]
+        return json_response(children=report_folder)
     else:
-        temp = DBSession.query(FolderTree).filter(FolderTree.id == '2').first()
+        temp = FolderTree.query.filter(FolderTree.id == '2').first()
         private_folder = dict(
                 id=temp.id,
                 text=temp.name,
                 expanded=True)
         getChildFolder(private_folder)
-        temp = DBSession.query(FolderTree).filter(FolderTree.id == '1').first()
+        temp = FolderTree.query.filter(FolderTree.id == '1').first()
         public_folder = dict(
                 id=temp.id,
                 text=temp.name,
                 expanded=True)
         getChildFolder(public_folder)
-        return [private_folder, public_folder]
+        return json_response(children=public_folder) 
     
-@view_config(route_name='get_folder', renderer='json')
-def get_folder(request):
-    folder_id = request.params['folder_id']
-    folders = DBSession.query(FolderTree).filter(FolderTree.id == folder_id).all()
-    return folders
+@freequery.route('/get_folder',methods = ['GET','POST'])
+@login_required
+def get_folder():
+    folder_id = request.values['folder_id']
+    folders = FolderTree.query.filter(FolderTree.id == folder_id).all()
+    return json_response(data=folders)
 
-@view_config(route_name='save_folder', renderer='json')
-def save_folder(request):
-    params = request.params
-    print(params)
+@freequery.route('/save_folder',methods = ['GET','POST'])
+@login_required
+def save_folder():
+    params = request.values
     folder=None
     if params.get('id',None):
-        folder = DBSession.query(FolderTree).filter(FolderTree.id==params['id']).first()
+        folder = FolderTree.query.filter(FolderTree.id==params['id']).first()
     if not folder:
         folder = FolderTree()
     for key in params.keys():
         if hasattr(folder, key)  and key!='id':
             setattr(folder,key,params[key])
-    folder.create_by=authenticated_userid(request)
-    folder = DBSession.merge(folder)
-    DBSession.flush()
-    return dict(success=True,data=folder)
+    folder.create_by=current_user.login_name
+    folder = db.session.merge(folder)
+    db.session.flush()
+    return json_response(success=True,data=folder)
 
-@view_config(route_name='delete_folder', renderer='json')
-def delete_folder(request):
-    params = request.params
-    folder_id =request.params['id']
-    sub_folder = DBSession.query(FolderTree).filter(FolderTree.parent_id==folder_id).all()
+
+@freequery.route('/delete_folder',methods = ['GET','POST'])
+@login_required
+def delete_folder():
+    params = request.values
+    folder_id =request.values['id']
+    sub_folder = FolderTree.query.filter(FolderTree.parent_id==folder_id).all()
     if sub_folder:
-        return dict(success=False,data=dict(error='Sub folder found'))
-    reports = DBSession.query(Reports).filter(Reports.folder_id==folder_id).all()
+        return json_response(success=False,data=dict(error='Sub folder found'))
+    reports = Reports.query.filter(Reports.folder_id==folder_id).all()
     if reports:
-        return dict(success=False,data=dict(error='Reports found in this folder'))
-    folder = DBSession.query(FolderTree).filter(FolderTree.id==folder_id).first()
+        return json_response(success=False,data=dict(error='Reports found in this folder'))
+    folder = FolderTree.query.filter(FolderTree.id==folder_id).first()
     if folder:
-        DBSession.delete(folder)
-        DBSession.flush()
-    return dict(success=True,data=folder)
+        db.session.delete(folder)
+        db.session.flush()
+    return json_response(success=True,data=folder)
 
-@view_config(route_name='search_report', renderer='json')
-def search_report(request):
+@freequery.route('/search_report',methods = ['GET','POST'])
+@login_required
+def search_report():
     """
     get the report folder tree structure json data
     """
-    params = request.params
-    print(params)
-    query = DBSession.query(Reports)
+    params = request.values
+    query = Reports.query
     if params.get('folder_id',None):
         query= query.filter(Reports.folder_id == params['folder_id'])
     if params.get('id',None):
         query= query.filter(Reports.id == params['id'])
     query= query.filter(Reports.status == 'ACTIVE')
     reports = query.all()
-    return reports
+    return json_response(data=reports)
 
-@view_config(route_name='show_report', renderer='json')
-def show_report(request):
+
+@freequery.route('/show_report',methods = ['GET','POST'])
+@login_required
+def show_report():
     """
     get the report column and fields
     """
-    report_id = request.params['id']
+    report_id = request.values['id']
     free_query = FreeQuery(report_id)
-    return dict(columns=free_query.get_column_model(), fields=free_query.get_data_model(),req_filter=free_query.req_filter())
+    return json_response(columns=free_query.get_column_model(), fields=free_query.get_data_model(),req_filter=free_query.req_filter())
 
-@view_config(route_name='report_data', renderer='json')
-def report_data(request):
+@freequery.route('/report_data',methods = ['GET','POST'])
+@login_required
+def report_data():
     """
     get the report json data
     #http://localhost:6543/free_query/report_data?id=2&_dc=1369040490834&page=1&start=0&limit=50
     """
-    filters=json.loads(request.params.get("filters","[]")) #the filter object is a string, need convert to python objects
+    filters=json.loads(request.values.get("filters","[]")) #the filter object is a string, need convert to python objects
     pages = {}
-    pages["start"] = request.params.get("start", 0)
-    pages["end"] = int(pages["start"]) + int(request.params.get("limit", 50))
+    pages["start"] = request.values.get("start", 0)
+    pages["end"] = int(pages["start"]) + int(request.values.get("limit", 50))
     sorters = []
     try:
-        sorters.append(dict(sort=request.params["sort"], dir=request.params["dir"]))
-    except KeyError, e:
+        sorters.append(dict(sort=request.values["sort"], dir=request.values["dir"]))
+    except KeyError as e:
         pass
-    report_id = request.params['id']
+    report_id = request.values['id']
     free_query = FreeQuery(report_id)
     result = free_query.get_result(pages=pages,filters=filters, sorters=sorters)
-    return result
+    return json_response(**result)
 
-@view_config(route_name='report_filter', renderer='json')
-def report_filter(request):
+@freequery.route('/report_filter',methods = ['GET','POST'])
+@login_required
+def report_filter():
     """
     get report filter model to generate filter form
     filter_type:
@@ -183,7 +188,7 @@ def report_filter(request):
           complex
      }
     """
-    report_id = request.params['id']
+    report_id = request.values['id']
     free_query = FreeQuery(report_id)
     filter_model = free_query.get_filter_model()
     filter_form = []
@@ -219,18 +224,19 @@ def report_filter(request):
                         queryMode='remote',
                         allowBlank=not filter['req_filter'])
         filter_form.append(filter_field)
-    return filter_form
+    return json_response(filter_form=filter_form)
 
-@view_config(route_name='filter_list', renderer='json')
-def filter_list(request):
+@freequery.route('/filter_list',methods = ['GET','POST'])
+@login_required
+def filter_list():
     """
     get the filter selection list for the list filter type
     """
-    report_id = request.params['id']
-    filter_name = request.params['name']
+    report_id = request.values['id']
+    filter_name = request.values['name']
     filters = []
     try:
-        query = request.params["query"]
+        query = request.values["query"]
         # {"field":"company","data":{"type":"string","value":"A"}},
         if query:
             filters = [dict(field=filter_name, data=dict(type="string", comparison="contain", value=query))]
@@ -238,98 +244,102 @@ def filter_list(request):
         pass
     free_query = FreeQuery(report_id)
     filter_list = free_query.get_filter_list(filter_name, filters=filters)
-    return filter_list
+    return json_response(filter_list=filter_list)
 
-@view_config(route_name='export_report', renderer='json')
-def export_report(request):
+@freequery.route('/export_report',methods = ['GET','POST'])
+@login_required
+def export_report():
     """
     export report data to excel
     """
-    exp_dir=cfg.config.registry.settings.get('free_query.export_dir')
-    filters=json.loads(request.params.get("filters","[]")) #the filter object is a string, need convert to python objects
+    exp_dir=cfg.FREE_QUERY_EXP_DIR
+    filters=json.loads(request.values.get("filters","[]")) #the filter object is a string, need convert to python objects
     print('*'*40)
     print(filters)
     sorters = []
     try:
-        sorters.append(request.params["sorters"])
-    except KeyError, e:
+        sorters.append(request.values["sorters"])
+    except KeyError as e:
         pass
-    report_id = request.params['id']
+    report_id = request.values['id']
     free_query = FreeQuery(report_id)
-    exp_info = free_query.export_report(filters=filters, sorters=sorters,exp_dir=exp_dir,user_id=authenticated_userid(request))
-    return dict(data=exp_info,success=True)
+    exp_info = free_query.export_report(filters=filters, sorters=sorters,exp_dir=exp_dir,user_id=current_user.login_name)
+    return json_response(data=exp_info,success=True)
 
-@view_config(route_name='download_report')
-def download_report(request):
-    settings =cfg.config.registry.settings
-    exp_dir=settings.get('free_query.export_dir')
+@freequery.route('/download_report',methods = ['GET','POST'])
+@login_required
+def download_report():
+    exp_dir=cfg.FREE_QUERY_EXP_DIR
     url=request.matchdict['url']
     full_name=exp_dir+'/'+url
-    response= FileResponse(full_name, request=request)
-    (dir_name, file_name) = os.path.split(full_name)
-    response.content_disposition = 'attachment; filename="'+file_name+'"'
-    return response
+    (dir_name,file_name)= os.path.split(full_name)
+    return send_from_directory(dir_name,file_name,as_attachment=True)
 
-@view_config(route_name='save_report', renderer='json')
-def save_report(request):
+@freequery.route('/save_report',methods = ['GET','POST'])
+@login_required
+def save_report():
     '''
     save report to data base
     params['report'] :  report's basic information
     params['report_props'] :  report's basic information
     '''
-    params = request.params
+    params = request.values
     report=None
     if params.get('id',None):
-        report = DBSession.query(Reports).filter(Reports.id==params['id']).first()
+        report = Reports.query.filter(Reports.id==params['id']).first()
     if not report:
         report = Reports()
     for key in params.keys():
         if hasattr(report, key)  and key!='id':
             setattr(report,key,params[key])
-    report.create_by=authenticated_userid(request)
-    report = DBSession.merge(report)
-    DBSession.flush()
-    return dict(success=True,data=report)
+    report.create_by=current_user.login_name
+    report = db.session.merge(report)
+    db.session.flush()
+    return json_response(success=True,data=report)
 
-@view_config(route_name='delete_report', renderer='json')
-def delete_report(request):
-    params = request.params
+@freequery.route('/delete_report',methods = ['GET','POST'])
+@login_required
+def delete_report():
+    params = request.valuess
     report_id =request.params['id']
-    report = DBSession.query(Reports).filter(Reports.id==report_id).first()
+    report = Reports.query.filter(Reports.id==report_id).first()
     if not report:
         return dict(success=False,data=dict(error="report doesn't exits"))
     else:
         report.status='DELETED'
-        DBSession.merge(report)
-        DBSession.flush()
-    return dict(success=True,data=report)
+        db.session.merge(report)
+        db.session.flush()
+    return json_response(success=True,data=report)
 
-@view_config(route_name='refresh_report_props', renderer='json')
-def refresh_report_props(request):
+@freequery.route('/refresh_report_props',methods = ['GET','POST'])
+@login_required
+def refresh_report_props():
     '''
     refresh report props
     params['report_id'] :  the report to refresh
     '''
-    report_id = request.params['report_id']
+    report_id = request.values['report_id']
     free_query = FreeQuery(report_id)
     free_query.refresh_props()
-    return free_query.get_props()
+    return json_response(report_props=free_query.get_props())
 
-@view_config(route_name='get_report_props', renderer='json')
-def get_report_props(request):
+@freequery.route('/get_report_props',methods = ['GET','POST'])
+@login_required
+def get_report_props():
     '''
     get report props by report_id
     '''
-    report_id = request.params.get('report_id',None)
+    report_id = request.values.get('report_id',None)
     if report_id:
         free_query = FreeQuery(report_id)
-        return free_query.get_props()
+        return json_response(report_props=free_query.get_props())
     else:
-        return save_report_props(request)
+        return json_response(report_props=save_report_props(request))
     
 
-@view_config(route_name='save_report_props', renderer='json')
-def save_report_props(request):
+@freequery.route('/save_report_props',methods = ['GET','POST'])
+@login_required
+def save_report_props():
     '''
     save report to data base
     params['report'] :  report's basic information
@@ -341,6 +351,6 @@ def save_report_props(request):
     for key in rpt_props.keys():
         if hasattr(rpt_prop,key):
             setattr(rpt_prop,key,rpt_props[key])
-    DBSession.merge(rpt_prop)
-    DBSession.flush()
-    return dict(success=True)
+    db.session.merge(rpt_prop)
+    db.session.flush()
+    return json_response(success=True)

@@ -40,7 +40,9 @@ def run_script(exec_id,scripts,ds_name,user_id):
                 try:
                     if sql:
                         temp = ExecRunDetail(run_id =run_id,sql_text=sql,start_time=datetime.now(),run_by=user_id)
+                        print(sql)
                         res = conn.execute(sql)
+                        print('finished')
                         result.append('rowcount : '+str(res.rowcount))
                         temp.end_time = datetime.now()
                         temp.result = 'rowcount : '+str(res.rowcount)

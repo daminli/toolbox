@@ -11,7 +11,7 @@ from flask_babel import Babel, lazy_gettext
 from flask_json import FlaskJSON, JsonError, json_response, as_json
 
 
-from app_settings import *
+from cfg import *
 
 basedir=os.path.split(os.path.realpath(__file__))[0]
 static_folder=os.path.realpath(os.path.join(basedir,'..'+os.path.sep+'..'+os.path.sep+'toolbox_www'))
@@ -51,18 +51,11 @@ with app.app_context():
     NAV_DATA.append(itsm.NAV_DATA)
     NAV_DATA.append(util.NAV_DATA)
     NAV_DATA.append(free_query.NAV_DATA)
-    print(app.url_map)
-    print('debug:'+str(app.debug))
-    
-def alcoram_json(obj):
-    dicJson = {}
-    dicJson["py/object"]=obj.__class__.__module__ + "." +obj.__class__.__name__
-    for attrName in obj.__mapper__.columns.keys():
-        dicJson[attrName]=getattr(obj,attrName)
-    return dicJson
+    app.logger.debug(app.url_map)
 
-db.Model.__json__=alcoram_json    
+from util import json_render
     
+
 class ReverseProxied(object):
     '''Wrap the application in this middleware and configure the 
     front-end server to add these headers, to let you quietly bind 

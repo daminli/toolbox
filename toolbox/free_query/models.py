@@ -7,19 +7,23 @@ Created on 2013-5-8
 from datetime import datetime
 import types
 
-from sqlalchemy import (DateTime,String,Column,Text,Integer,Boolean,Index)
+from flask import g
+from sqlalchemy import (DateTime,String,Column,Text,Integer,Boolean,Index,text)
 from sqlalchemy.orm import (validates,relationship, backref)
-from sqlalchemy import (text)
-from pyramid import config
 
-from util.id_generator import IdGenerator
-import cfg
-import exportor
-from toolbox.common.datasource.models import DataSourceEngine
-from exceptions import MissReqFilter
+from . import exportor
+
+from .exceptions import MissReqFilter
 from util.selection.models import Selection
+from util.datasource.models import DataSourceEngine
+from util.id_generator import IdGenerator
 
-Base=cfg.Base
+import cfg
+
+db=g.db
+
+
+Base=db.Model
 
 class Reports(Base):
     __tablename__ = 'fq_reports'
@@ -136,7 +140,7 @@ class FreeQuery(object):
         
         order_sql = self.build_sort(sorters)
         group_sql = self.build_group(groups)
-        sql_text = select_sql + "("+base_sql+") " +condition["where_sql"] + group_sql + order_sql
+        sql_text = select_sql + "("+base_sql+") as a " +condition["where_sql"] + group_sql + order_sql
         return dict(sql_text=sql_text,params=condition["params"])
     
     def check_req_filter(self,filters):
@@ -269,7 +273,13 @@ class FreeQuery(object):
             except AttributeError:
                 self.rowcount=conn.execute(text("select count(1) from ("+sql_text+") "),params).scalar()
             '''
-            resultProxy=conn.execute(text("select rownum row_num,a.* from ("+sql_text+") a where rownum <="+str(pages['end'])),dict(params.items()+pages.items()))
+            if self.data_source.engine.dialect.name=='oracle':
+                sql_text = "select rownum row_num,b.* from ("+sql_text+") as b where rownum <="+str(pages['end'])
+            if self.data_source.engine.dialect.name=='postgresql':
+                sql_text = "select b.* from ("+sql_text+") as b limit "+str(pages['end'])
+            if self.data_source.engine.dialect.name=='hana':
+                assert(1==2)
+            resultProxy=conn.execute(text(sql_text),dict(params,**pages))
             result = resultProxy.fetchall()
             self.rowcount=resultProxy.rowcount
             resultProxy.close()
@@ -289,7 +299,7 @@ class FreeQuery(object):
                yes: zip always
                no: doesn't zip
         """
-        DBSession=cfg.Session()
+        DBSession=db.session
         exp_log=ExportLog(rpt_id=self.report_id,start_time=datetime.now())
         DBSession.begin(subtransactions=True)
         exp_log.status='initial'
@@ -373,7 +383,7 @@ class FreeQuery(object):
         """
          get the report filter selection list
         """
-        DBSession=cfg.DBSession
+        DBSession=db.session
         for prop in self.rpt_props:
             if  prop.col_name.lower()==filter_name.lower() and prop.filter_type=='list' and prop.selection:
                 selection = DBSession.query(Selection).filter(Selection.name==prop.selection).first()
@@ -391,8 +401,13 @@ class FreeQuery(object):
         return result
     
     def refresh_props(self):
-        DBSession=cfg.DBSession
-        sql_text = "select * from ("+self.report.sql_query+") where rownum<1"
+        DBSession=db.session
+        if self.data_source.engine.dialect.name=='oracle':
+            sql_text = "select * from ("+self.report.sql_query+") as a where rownum<1"
+        if self.data_source.engine.dialect.name=='postgresql':
+            sql_text = "select * from ("+self.report.sql_query+") as a limit 1"
+        if self.data_source.engine.dialect.name=='hana':
+            assert(1==2)
         conn = self.data_source.engine.connect()
         try:
             resultProxy = conn.execute(text(sql_text))
