@@ -1,14 +1,11 @@
-
-
-from flask import Blueprint, url_for, current_app
+from flask import Blueprint,current_app
 
 app=current_app
 
 common = app.blueprints.get('common',None)
 if not common:
     common=Blueprint('common', 'util', template_folder='templates')
-    from util import datasource, selection, dictionary
-    from . import views
+    from util import views,selection,upload,datasource
     app.register_blueprint(common, url_prefix='/common')
 
 PREFIX = '/extpage/common'   

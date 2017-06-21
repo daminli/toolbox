@@ -34,6 +34,11 @@ favorit = dict(
             iconCls='x-fa fa-home',
             expanded=True,
             children=[dict(
+                        id='upload',
+                        text='Excel Upload',
+                        target='/extpage/common/Upload/',
+                        type='url'
+                    ),dict(
                         id='baidu',
                         text='Baidu Searching',
                         activity='ScheduleCalendar',
@@ -57,13 +62,6 @@ favorit = dict(
                         text='Dg Page',
                         activity='Dg',
                         target='/extpage/common/Dg/',
-                        type='url'
-                        
-                    ), dict(
-                        id='mainPage',
-                        text='Main Page',
-                        activity='ScheduleCalendar',
-                        target='/extpage/main/MainPage/',
                         type='url'
                     )]
         )

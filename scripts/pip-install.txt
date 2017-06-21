@@ -11,3 +11,6 @@ sudo pip install flask_sqlalchemy_cache
 sudo pip install flask_wtf
 sudo pip install uwsgi
 sudo pip install cx_Oracle
+sudo pip install Flask-Uploads
+sudo pip install sqlalchemy_hana
+sudo pip install pyhdb

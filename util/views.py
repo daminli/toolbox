@@ -6,8 +6,11 @@ from flask_login import current_user, login_required
 from flask_json import json_response
 
 import util
-from util import common
-from toolbox.sql_executor.models import ExecHistory
+from util import common,datasource, selection, dictionary,upload
+
+from flask import Blueprint, url_for, current_app
+
+
 
 app = current_app
 db=g.db
@@ -15,8 +18,7 @@ db=g.db
 
 @common.route('/idg_test', methods = ['GET', 'POST'])
 def idg_test():
-    
-    
+    from toolbox.sql_executor.models import ExecHistory
     idg_exec=util.id_generator.IdGenerator('EXEC_HISTORY')
     result=[]
     for i in list(range(1)):
