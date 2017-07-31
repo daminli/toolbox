@@ -4,13 +4,16 @@ Created on 2013-4-24
 
 @author: lidm1
 '''
-import uuid 
-from flask import request, url_for, redirect,render_template, current_app,g
+import uuid ,json
+from flask import request, url_for,session, redirect,render_template, current_app,g
 from flask_json import json_response
-from flask_login import logout_user, login_user
+from flask_login import logout_user, login_user, current_user
 from .models import UserList
 from datetime import date,datetime,timedelta
 from flask_sqlalchemy_cache import FromCache
+
+from ldap3 import Server, Connection, ALL
+
 from . import auth
 
 app=current_app
@@ -20,14 +23,15 @@ cache=g.cache
 
 @lm.user_loader
 def load_user(session_token):
-    app.logger.debug('Cache load:'+session_token)
+    #app.logger.debug('Cache load:'+session_token)
     user=UserList.query.options(FromCache(cache)).filter(UserList.session_token==session_token).first()
-    if user and user.last_session>datetime.now()-timedelta(1):
-        app.logger.debug('Cache load User:'+str(user))
+    if user:
+        #app.logger.debug('Cache load User:'+str(user))
+        pass
     else:
-        app.logger.debug('DB load:'+session_token)
-        user = UserList.query.filter(UserList.session_token==session_token,UserList.last_session>datetime.now()-timedelta(1)).first()
-        app.logger.debug('DB load User:'+str(user))
+        #app.logger.debug('DB load:'+session_token)
+        user = UserList.query.filter(UserList.session_token==session_token).first()
+        #app.logger.debug('DB load User:'+str(user))
     return user
 
 @auth.route('/login', methods = ['GET', 'POST'])
@@ -50,21 +54,32 @@ def login():
             if query_string:
                 query_string='?'+query_string
             return redirect(location = request.current_route_url()+query_string)
-    return render_template('login.html',page='login')
+    next_page = request.values.get('next',None)
+    return render_template('login.html',next_page=next_page)
 
-@auth.route('/valid_login', methods = ['POST'])
+@auth.route('/valid_login', methods = ['POST','GET'])
 def valid_login():
     """
     valid user login
-    params : userName,password
+    params : username,password
     """
-    user_name= request.values.get('username',None)
-    password= request.values.get('password',None)
-    result = on_validlogin(user_name, password)
-    if result["success"]:
-        login_user(result['user'], remember=True)
-        return json_response(success=True,redirect= url_for('init_page'))
-    return json_response(success=False,errors=result['errors'])
+    app.logger.debug(request.values)
+    app.logger.debug(request.get_data())
+    if request.values.get('username',None):
+        params=request.values
+    else:
+        params=json.loads(request.get_data())
+        
+    user_name= params.get('username',None)
+    password= params.get('password',None)
+    if user_name and password:
+        result = on_validlogin(user_name, password)
+        if result["success"]:
+            login_user(result['user'], remember=True)
+            return json_response(success=True,redirect= url_for('init_page'))
+        return json_response(success=False,errors=result['errors'])
+    else:
+        return json_response(success=False,errors=dict(message='username or password miss'))
     
 @auth.route('/logout', methods = ['GET', 'POST'])
 def logout(request):
@@ -75,7 +90,7 @@ def logout(request):
     logout_user()
     return redirect(url_for('ext_page',package='main',page='Login'))
     
-    
+  
 def on_validlogin(user_name, password):
     '''
       Validate username and password by AD
@@ -84,40 +99,53 @@ def on_validlogin(user_name, password):
       :param password: The user password
       :type password: string    
     '''
-        
-    user = UserList.query.filter_by(login_name=user_name).first()
-    if not user:
-        return dict(success=False,errors=dict(username= "User is not exists."))
-    if user.status!='ACTIVE':
-        return dict(success=False,errors=dict(username= "User is inactive."))
-    if user.pwd_exp_date<date.today():
-        return dict(success=False,errors=dict(username= "User is expired."))
-    
-    user.session_token=str(uuid.uuid1())
-    print(user.session_token)
-    user.last_login=datetime.now()
-    user.last_session=datetime.now()
-    db.session.merge(user)
-    db.session.commit()
-    '''
-    try:
-        SERVER = "ldap://lenovo.com:389"
-        DN = user_name + "@lenovo.com"
-        secret = password
-        un = user_name
-        l = ldap.initialize(SERVER)
-        l.protocol_version = 3
-        l.set_option(ldap.OPT_REFERRALS, 0)
-        l.simple_bind_s(DN, password)
-    except ldap.INVALID_CREDENTIALS:
+    def update_user_attr(user_obj,user_entry):
+        USER_ATTR_MAP = {'login_name':'sAMAccountName',
+                         'first_name':'givenName',
+                         'last_name':'sn',
+                         'user_password':'sAMAccountName',
+                         'email_address':'mail',
+                         'org_name':'department',
+                         'country':'c',
+                         'state':'l',
+                         'phone':'telephoneNumber'}
+        for key,value in USER_ATTR_MAP.items():
+            setattr(user_obj,key,getattr(user_entry,value).value)
+            
+    server = "ldap://lenovo.com:389"
+    conn = Connection(server, 'lenovo\\'+user_name, password)
+    if conn.bind():
+        search_attrs = ['name', 'userPrincipalName','departmentNumber', 'telephoneNumber', 'department','sAMAccountName', 'mail', 'manager', 'title', 'employeeType', 'l', 'c','employeeNumber', 'displayName','givenName','sn']
+        conn.search('dc=lenovo,dc=com', '(sAMAccountName='+user_name+')',attributes=search_attrs)
+        user_entry = conn.entries[0]
+        conn.unbind()
+    else:
         return dict(success=False, 
-                errors=dict(
+                errors=dict(status='FAILED',
                            password= "invalid password"
         ))
-    except:
-        return dict(success= False, errors=dict(username= 'Login failed. Try again.'))
-    '''    
-    return dict(success=True,user=user)
+    
+    result = {}
+    user = UserList.query.filter_by(login_name=user_name).first()
+    if not user:
+        user = UserList()
+        result = dict(success=False,errors=dict(status='NEW',username= "New user created."))
+        user.status = 'NEW'
+        user.pwd_exp_date =  datetime(9999,12,31)
+        user.user_grp_id = 'default'
+    elif user.status=='INACTIVE':
+        result = dict(success=False,errors=dict(status='INACTIVE',username= "User is inactive."))
+    #elif user.pwd_exp_date<date.today():
+        #result = dict(success=False,errors=dict(status='EXPIRED',username= "User is expired."))
+    user.session_token=str(uuid.uuid1())
+    user.last_login=datetime.now()
+    user.last_session=datetime.now()
+    update_user_attr(user,user_entry)
+    db.session.merge(user)
+    db.session.commit()
+    if not result:
+        result = dict(success=True,user=user)
+    return result
 
 def sso_validlogin(sid):
     '''
@@ -139,3 +167,12 @@ def sso_validlogin(sid):
         return dict(success= False)
         '''
     return dict(success=False,data=dict(user_name='lidm1'))
+
+@auth.route('/check', methods = ['GET', 'POST'])
+def check():
+    #app.logger.debug(str(session));
+    try:
+        if current_user.login_name:
+            return json_response(headers_={'X-Viewer':'viewer'},user_name=current_user.login_name)
+    except Exception as e:
+        return json_response(status_=401)

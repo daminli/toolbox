@@ -9,7 +9,7 @@ from flask_openid import OpenID
 from flask_mail import Mail
 from flask_babel import Babel, lazy_gettext
 from flask_json import FlaskJSON, JsonError, json_response, as_json
-
+from flask_restful import Api
 
 from cfg import *
 
@@ -27,9 +27,18 @@ if app.debug:
 FlaskJSON(app)
 
 db = SQLAlchemy(app,session_options={'autocommit': False})
+api=Api(app)
 cache = Cache(app)
 mail = Mail(app)
 babel = Babel(app)
+
+from flask_wtf import FlaskForm
+from wtforms_alchemy import model_form_factory
+BaseModelForm = model_form_factory(FlaskForm)
+class ModelForm(BaseModelForm):
+    @classmethod
+    def get_session(self):
+        return db.session
 
 lm = LoginManager()
 lm.init_app(app)
@@ -37,21 +46,21 @@ lm.login_view = 'auth.login'
 lm.login_message = lazy_gettext('Please login to access this page.')
 lm.login_message_category = "info"
 
-from sqlalchemy import engine_from_config
-
 with app.app_context():
     g.db=db
     g.cache=cache
-    from toolbox import views,navigation,user_security,action,sql_executor,workflow_report,itsm,free_query
+    g.api=api
+    g.ModelForm=ModelForm
+    from toolbox import views,navigation,user_security,action,sql_executor,workflow_report,itsm,free_query,resources_mgmt
     import util
     NAV_DATA=navigation.NAV_DATA
     NAV_DATA.append(sql_executor.NAV_DATA)
+    NAV_DATA.append(resources_mgmt.NAV_DATA)
     NAV_DATA.append(action.NAV_DATA)
     NAV_DATA.append(workflow_report.NAV_DATA)
     NAV_DATA.append(itsm.NAV_DATA)
     NAV_DATA.append(util.NAV_DATA)
     NAV_DATA.append(free_query.NAV_DATA)
-    app.logger.debug(app.url_map)
 
 from util import json_render
     

@@ -4,6 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link type="text/css" rel="stylesheet"
 	href="/static/custom/css/login.css" />
+<link rel="shortcut icon" href="/static/idea.png" />
 <script src="/static/libs/jquery-3.2.1.min.js" type="text/javascript"></script>
 <script type="text/javascript" src="/static/custom/js/login.js"></script>
 </head>
@@ -17,6 +18,8 @@
 				style="width: 215px;" /><span name='password'>Password</span></label>
 				<span name='error_message' class="error_message"></span>
 			<button type="button">Login</button>
+			<input
+				name="next_page" value="{{next_page}}" type='hidden' />
 		</form>
 	</div>
 </body>

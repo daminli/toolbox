@@ -6,35 +6,40 @@ from flask_json import json_response, as_json
 from flask_login import logout_user, login_user, login_required, current_user
 from sqlalchemy.sql import text
 
-from util import util
+import util
+from util import common
+
+from flask_wtf import Form
+from wtforms import TextField
+from wtforms.validators import DataRequired
 
 
 app=current_app
 lm = current_app.login_manager
 db=g.db
 
-#@view_config(route_name='test_url', renderer='json')
-def test_url(request):
-    return None
-
-#@extdirect_method(action='dict',request_as_last_param=True)
-def get_model(params,request):
+@common.route('/get_model',methods = ['GET','POST'])
+def get_model():
     '''
     get model defination
     '''
     prop_list=[]
     sql_text=None
-    if not params:
-        params=request.params
+    params=request.values
+    if db.engine.dialect.name=='oracle':
+        row_limit=' where rownum<=1'
+    if db.engine.dialect.name in ['postgresql','hana']:
+        row_limit=' limit 1'
     if params['type']=='db_table':
-        sql_text="select * from "+params['value']+" where rownum<1"
+        sql_text="select * from "+params['value']+row_limit
     if params['type']=='db_sql':
-        sql_text="select * from ( "+params['value']+" ) where rownum<1"
+        sql_text="select * from ( "+params['value']+" ) a"+row_limit
     if sql_text:
-        resultProxy = db.execute(text(sql_text))
+        resultProxy = db.session.execute(text(sql_text))
         resultProxy.close()
         for col_name in resultProxy.keys():
-            prop_list.append(col_name.lower())
+            label=" ".join([temp.capitalize() for temp in col_name.split('_')])
+            prop_list.append(dict(name=col_name.lower(),label=label))
     if params['type']=='cls_name':
         cls_name=params['value']
         d = cls_name.rfind(".")
@@ -42,11 +47,13 @@ def get_model(params,request):
         cls=getattr(module,cls_name[d+1:len(cls_name)])
         for attr in cls.__dict__.keys():
             if not attr.startswith("_"):
-                prop_list.append(attr)
+                col=getattr(cls,attr)
+                prop_list.append(dict(name=str(col.name),label=col.info.get('label',str(col.name))))
     if params['type']=='table':
         table=params['value']
         for t in db.Model.metadata.sorted_tables:
             if t.name==table:
-                prop_list.append(t.columns.keys())
+                for col in t.get_children():
+                    prop_list.append(dict(name=str(col.name),label=col.info.get('label',str(col.name))))
                 break
-    return json_response(fields=[dict(name=prop) for prop in prop_list])
+    return json_response(fields=[dict(name=prop['name'],dataindex=prop['name'],text=prop['label']) for prop in prop_list])

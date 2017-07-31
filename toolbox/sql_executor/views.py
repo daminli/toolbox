@@ -2,8 +2,8 @@ import json, uuid
 from datetime import date,datetime,timedelta
 
 from flask import request, url_for, redirect,render_template, current_app,g
-from flask_json import json_response, as_json
-from flask_login import logout_user, login_user, login_required, current_user
+from flask_json import json_response
+from flask_login import login_required, current_user
 
 
 from util.id_generator import IdGenerator

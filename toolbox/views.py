@@ -10,6 +10,7 @@ from . import navigation
 from datetime import datetime
 import toolbox
 import util
+from _decimal import Decimal
 
 app = current_app
 db=g.db
@@ -120,3 +121,7 @@ def url_map():
         url_list.append(rule.__repr__())
     url_list.sort()
     return json_response(url_rules=url_list,name=request.script_root)
+
+@app.route('/test',methods=['GET'])
+def test():
+    return json_response(data=dict(a=Decimal(9.3)))
