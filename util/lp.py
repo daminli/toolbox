@@ -45,6 +45,4 @@ class Ldap(object):
     
 if __name__ == '__main__':
     l=Ldap()
-    l.connect('lidm1','(dx2@2xmy)')
-    print l.search('yanghs1')
     pass
